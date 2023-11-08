@@ -36,5 +36,13 @@ class Graylog(object):
             return sidecar_num
         except:
             return False
+    def get_sidecar_node_status(self):
+        try:
+            url = f"http://{self.host}:{self.port}/api/sidecars/all"
+            response = self.session.get(url)
+            data = response.json()
+            return data
+        except:
+            return False
     def logout(self):
         self.session.close()
