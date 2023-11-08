@@ -5,7 +5,6 @@ class Graylog(object):
     def __init__(self, host, port, username, password):
         self.host = host
         self.port = port
-        self.password = password
         self.username = username
         self.password = password
         self.session = Session()
@@ -19,14 +18,12 @@ class Graylog(object):
         index_sets_total = graylog_info['index_sets']
         for index_sets in index_sets_total:
             id_index_prefix[index_sets['id']] = index_sets['index_prefix']
-        response.close()
         return (id_index_prefix)
     def get_index_id_size(self,id):
         try:
             url = f"http://{self.host}:{self.port}/api/system/indices/index_sets/{id}/stats"
             response = self.session.get(url)
             index_id_size = json.loads(response.text)
-            response.close()
             return index_id_size
         except:
             return False
@@ -36,7 +33,8 @@ class Graylog(object):
             response = self.session.get(url)
             sidecar_total = json.loads(response.text)
             sidecar_num = sidecar_total['total']
-            response.close()
             return sidecar_num
         except:
             return False
+    def logout(self):
+        self.session.close()
