@@ -20,6 +20,7 @@ def index():
 
 @app.route('/metrics')
 def get_Graylog():
+    clear_metrics()
     graylog = Graylog(graylog_server, graylog_port,'admin','UMM_Admin67657')
     index_id_dic = graylog.get_index_id()
     for index_id,index_prefix in index_id_dic.items():
